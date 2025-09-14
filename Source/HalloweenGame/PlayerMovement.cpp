@@ -1,7 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "PlayerMovement.h"
+float currentSpeed;
+float baseSpeed;
+float maxSpeed;
+UMeshComponent* Body;
+float sprintSpeed;
+//Private in the .h
+bool isSprinting = false;
 
 // Sets default values
 APlayerMovement::APlayerMovement()
@@ -15,6 +19,8 @@ APlayerMovement::APlayerMovement()
 void APlayerMovement::BeginPlay()
 {
 	Super::BeginPlay();
+	//Default the current speed to the base speed we will change this to the sprint speed and back to base speed as needed
+	currentSpeed = baseSpeed;
 	
 }
 
@@ -30,5 +36,73 @@ void APlayerMovement::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+/// <summary>
+/// Allows the player to move forward
+/// </summary>
+void APlayerMovement::MoveForward()
+{
+	//Checks if the player is within the speed limit for standard movement
+	if (Body->GetPhysicsLinearVelocity().X <= maxSpeed)
+	{
+		//Adds an impulse force to allow us to move the player
+		Body->AddImpulse(FVector(currentSpeed, 0, 0));
+	}
+}
+
+/// <summary>
+/// Allows the player to move backwards
+/// </summary>
+void APlayerMovement::MoveBackward()
+{
+	//Checks if the player is within the speed limit for standard movement
+	if (Body->GetPhysicsLinearVelocity().X <= -maxSpeed)
+	{
+		//Adds an impulse force to allow us to move the player
+		Body->AddImpulse(FVector(-currentSpeed, 0, 0));
+	}
+}
+
+/// <summary>
+/// Allows the player to move right
+/// </summary>
+void APlayerMovement::MoveRight()
+{
+	//Checks if the player is within the speed limit for standard movement
+	if (Body->GetPhysicsLinearVelocity().Y <= maxSpeed)
+	{
+		//Adds an impulse force to allow us to move the player
+		Body->AddImpulse(FVector(0, currentSpeed, 0));
+	}
+}
+
+/// <summary>
+/// Allows the player to move left
+/// </summary>
+void APlayerMovement::MoveLeft()
+{
+	//Checks if the player is within the speed limit for standard movement
+	if (Body->GetPhysicsLinearVelocity().Y <= -maxSpeed)
+	{
+		//Adds an impulse force to allow us to move the player
+		Body->AddImpulse(FVector(0, -currentSpeed, 0));
+	}
+}
+
+void APlayerMovement::Sprint()
+{
+	//If we are ending sprinting
+	if (isSprinting)
+	{
+		currentSpeed = baseSpeed;
+		isSprinting = false;
+	}
+	//If we are starting sprinting
+	else if (!isSprinting)
+	{
+		currentSpeed = sprintSpeed;
+		isSprinting = true;
+	}
 }
 
