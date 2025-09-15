@@ -1,4 +1,5 @@
 #include "PlayerMovement.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 float currentSpeed;
 float baseSpeed;
 float maxSpeed;
@@ -57,7 +58,7 @@ void APlayerMovement::MoveForward()
 void APlayerMovement::MoveBackward()
 {
 	//Checks if the player is within the speed limit for standard movement
-	if (Body->GetPhysicsLinearVelocity().X <= -maxSpeed)
+	if (Body->GetPhysicsLinearVelocity().X <= maxSpeed)
 	{
 		//Adds an impulse force to allow us to move the player
 		Body->AddImpulse(FVector(-currentSpeed, 0, 0));
@@ -83,7 +84,7 @@ void APlayerMovement::MoveRight()
 void APlayerMovement::MoveLeft()
 {
 	//Checks if the player is within the speed limit for standard movement
-	if (Body->GetPhysicsLinearVelocity().Y <= -maxSpeed)
+	if (Body->GetPhysicsLinearVelocity().Y <= maxSpeed)
 	{
 		//Adds an impulse force to allow us to move the player
 		Body->AddImpulse(FVector(0, -currentSpeed, 0));
