@@ -54,4 +54,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GroundMovement")
 	void Sprint();
+
+	//Camera Movement
+	UFUNCTION(BlueprintCallable, Category = "CameraMovement")
+	void MoveFirstPersonCamera();
 };

@@ -107,3 +107,16 @@ void APlayerMovement::Sprint()
 	}
 }
 
+/// <summary>
+/// A method that allows for movement in the first person camera based on the mouse position of the player
+/// </summary>
+void APlayerMovement::MoveFirstPersonCamera()
+{
+	FVector2D mousePos;
+	GEngine->GameViewport->GetMousePosition(mousePos);
+	if (mousePos.X);
+	{
+
+	}
+}
+
