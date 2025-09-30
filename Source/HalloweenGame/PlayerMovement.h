@@ -23,6 +23,7 @@ public:
 	UMeshComponent* Body;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GroundMovementVariables")
 	float sprintSpeed;
+	FVector2D lastMPos;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "GroundMovementVariables")
@@ -57,5 +58,9 @@ public:
 
 	//Camera Movement
 	UFUNCTION(BlueprintCallable, Category = "CameraMovement")
-	void MoveFirstPersonCamera();
+	void MoveFirstPersonCamera(UMeshComponent* cam, float cameraSpeed);
+
+	//Delete this later this is for debugging
+	UFUNCTION()
+	void PrintDebug(FVector2D message);
 };

@@ -8,6 +8,9 @@ float sprintSpeed;
 //Private in the .h
 bool isSprinting = false;
 
+//Last mouse position
+FVector2D lastMPos;
+
 // Sets default values
 APlayerMovement::APlayerMovement()
 {
@@ -110,13 +113,53 @@ void APlayerMovement::Sprint()
 /// <summary>
 /// A method that allows for movement in the first person camera based on the mouse position of the player
 /// </summary>
-void APlayerMovement::MoveFirstPersonCamera()
+void APlayerMovement::MoveFirstPersonCamera(UMeshComponent* cam, float cameraSpeed)
 {
+	//Get the mouse position
 	FVector2D mousePos;
 	GEngine->GameViewport->GetMousePosition(mousePos);
-	if (mousePos.X);
-	{
+	PrintDebug(mousePos);
 
+#pragma region Camera movement
+	//This focuses on just the camera movement individually
+
+	//If we turn the camera right
+	if (mousePos.X < lastMPos.X && mousePos.X)
+	{
+		//Add to the rotation so that we move the camera right
+		cam->AddLocalRotation(FRotator(0, -cameraSpeed, 0));
 	}
+	//If we turn the camera left
+	else if (mousePos.X > lastMPos.X)
+	{
+		//Add to the rotation the same way as we do for going right but with a - so we subtract
+		cam->AddLocalRotation(FRotator(0, cameraSpeed, 0));
+	}
+
+	//If we point the camera up
+	if (mousePos.Y < lastMPos.Y)
+	{
+		//Add to the rotation so that we move the camera up
+		cam->AddLocalRotation(FRotator(cameraSpeed, 0, 0));
+	}
+	//If we point the camera down
+	else if (mousePos.Y > lastMPos.Y)
+	{
+		//Add a negative number to the mose position so that we move the opposite direction
+		cam->AddLocalRotation(FRotator(-cameraSpeed, 0, 0));
+	}
+
+	lastMPos = mousePos;
+
+#pragma endregion
+}
+
+/// <summary>
+/// Delete later this is for my sanity so I don't have to keep retyping this
+/// </summary>
+/// <param name="message"></param>
+void APlayerMovement::PrintDebug(FVector2D message)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, message.ToString());
 }
 
